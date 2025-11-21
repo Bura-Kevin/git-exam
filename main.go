@@ -6,11 +6,17 @@ import (
 	"net/http"
 )
 
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "<h1>Welcome - Index</h1>")
+func main() {
+	log.Fatal(http.ListenAndServe(":8080", nil))
+	http.HandleFunc("/", URLHandler)
+	http.HandleFunc("/color", ColorHandler)
+
 }
 
-func main() {
-	http.HandleFunc("/", IndexHandler)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+func URLHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "You visited: %s", r.URL.Path)
+}
+
+func ColorHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "<h1>Colors</h1><style>*{background-color: #006400;}</style>")
 }
